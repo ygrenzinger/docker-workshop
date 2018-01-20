@@ -1,0 +1,13 @@
+{
+  "name": "docker_example_hello_world",
+  "version": "1.0.0",
+  "description": "Node.js on Docker",
+  "author": "yannick.grenzinger",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.16.1"
+  }
+}
