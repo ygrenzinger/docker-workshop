@@ -47,5 +47,18 @@ https://docs.docker.com/engine/reference/run/
 
 Wow you now have a container that can build any node project, it can even run your application. And you know one of most important network feature of docker which is exposing port from the container into the system.
 
+## Step 3 - Build node app generic image - the generic level
+
+The goal is to make hello-world run as a container with only one FROM in the Dockerfile. The idea is to have a generic image you could use to build many other node applications.
+
+1. Manage that the running container has a new user group (name app & id 1000) with addgroup shell cmd & a new user (name app & id 1000)  with adduser shell cmd. If it's complicated, try this in a simple Alpine container.
+2. Make the container use this user and the created home directory (you don't really want the container to run as ROOT)
+3. The most important step : you have to put your node app files inside your container & install node modules.
+4. Expose the correct port
+5. Use a combination of ENTRYPOINT & CMD to make the container running only as npm executable with start as the default parameter 
+6. You can now use this image as a base image for any node app
+7. Stop a running node app container. Do you see `stopping application after SIGTERM` at the end ? If you connect to a running container, you should look at the processes :)
+
+You now have a generic secure base image. You could experiment by taking into account that only the "installation" of node app files and directly running the node app are necessary.
 
   
