@@ -1,21 +1,2 @@
 version: "3.5"
 services:
-  elasticsearch:
-    image: blacktop/elasticsearch:6.1
-    networks: 
-      - workshop
-    volumes:
-      - /tmp/esdata:/usr/share/elasticsearch/data
-  app:
-    build: ./crud
-    environment:
-      - ES_HOST=elasticsearch
-    ports:
-      - "9090:9090"
-    networks: 
-      - workshop
-    entrypoint: dockerize -wait tcp://elasticsearch:9200 node server.js
-    depends_on:
-      - "elasticsearch"
-networks:
-  workshop:
