@@ -1,6 +1,6 @@
 ## Mandotory things before workshop
 
-1. Having a linux (ubuntu is advised) with docker last version installed (using Virtual Box running Ubuntu for example or Windows Subsystem Linux)
+1. Having a linux (ubuntu is advised) with docker last version installed (for Windows or MacOS, you can use Virtual Box running Ubuntu)
 2. Having done a first `docker pull ubuntu` to see if everything is working
 
 ## Step 1 - Run and create your first image using Alpine base image
