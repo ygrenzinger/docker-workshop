@@ -6,13 +6,13 @@
 ## Step 1 - Run and create your first image using Alpine base image
 
 Important links:
-https://docs.docker.com/engine/reference/run/
-https://docs.docker.com/engine/reference/commandline/commit/
+- https://docs.docker.com/engine/reference/run/
+- https://docs.docker.com/engine/reference/commandline/commit/
 
 1. Do `docker pull alpine && docker images` and compare size with Ubuntu image
 2. Do `docker inspect alpine` and see the GraphDriver section. The name is the storage driver for Copy On Write capabilities your are using. Look at the file inside the UpperDir inside your system (surely needing root access)
 3. Run Alpine container with sh in interactive mode with `run` command
-4. inside the container install node (`apk update && apk add nodejs`) and exit
+4. inside the container install node (`apk add nodejs`) and exit
 5. Use `ps` command to see the stopped but not removed container (what happen if you remove it ?)
 6. Commit this container as an image with nodejs (you should give it a name ...) with `commit` command
 7. Run this new image in same interactive mode to see that node is always there
@@ -23,12 +23,12 @@ You now understand the importance of small base image and have a glimpse on how 
 ## Step 2 - Build a real Docker image and run do some interesting stuff
 
 Important links:
-https://docs.docker.com/engine/reference/builder/
-https://docs.docker.com/engine/reference/commandline/build/
-https://docs.docker.com/engine/reference/run/
+- https://docs.docker.com/engine/reference/builder/
+- https://docs.docker.com/engine/reference/commandline/build/
+- https://docs.docker.com/engine/reference/run/
 
 
-1. Now build the same previous image with DSL by completing the Dockerfile present in node-image dir 
+1. Now build the same previous image with DSL by completing the Dockerfile present in node-base-image dir 
 2. Define a work directory like `/build` : is this dir already in your system ? how to create it ? more important why defining a work directory for your image ?
 3. Setup PATH to prioritize local npm bin ahead of system PATH (in shell, you could do `export PATH=node_modules/.bin:$PATH` .. but how to make it present in running container ?)
 4. Add a final command to make `npm install` run as soon as the container start and exit as soon as it's finished
@@ -50,13 +50,13 @@ Wow you now have a container that can build any node project, it can even run yo
 ## Step 3 - Build node app generic image - the generic level
 
 Important links:
-https://docs.docker.com/engine/reference/builder/
+- https://docs.docker.com/engine/reference/builder/
 
-The goal is to make hello-world run as a container with only one FROM in the Dockerfile. The idea is to have a generic image you could use to build many other node applications.
+The goal is to make hello-world node application (directory of the same name) run as a container with only one line FROM in the Dockerfile. The idea is to have a generic image you could use to build many other node applications.
 
 1. Manage that the running container has a new user group (name app & id 1000) with `addgroup` shell cmd & a new user (name app & id 1000)  with `adduser` shell cmd. If it's too complicated, try this in a simple Alpine running container.
 2. Make the container use this user and the created home directory (you don't really want the container to run as ROOT)
-3. The most important step : you have to put your node app files inside your container & install node modules.
+3. The most important step : you have to put your node app files inside your container & install node modules ... but not when building this generic image but when building the app image (look at `ONBUILD`)
 4. Expose the correct port
 5. Use a combination of ENTRYPOINT & CMD to make the container running only as node with server.js as the default parameter 
 6. You can now use this image as a base image for any node app
@@ -67,8 +67,8 @@ You now have a generic secure base image. You could experiment by taking into ac
 ## Step 4 - running a stack
 
 Important links:
-https://docs.docker.com/compose/compose-file/
-https://docs.docker.com/compose/reference/overview/
+- https://docs.docker.com/compose/compose-file/
+- https://docs.docker.com/compose/reference/overview/
 
 The goal is to make a stack containing an ElasticSearch backend and a very basic CRUD ExpressJS application running in a container thanks the generic image you have build before.
 
