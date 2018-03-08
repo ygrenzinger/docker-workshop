@@ -55,11 +55,11 @@ Important links:
 The goal is to make hello-world node application (directory of the same name) run as a container with only one line FROM in the Dockerfile. The idea is to have a generic image you could use to build many other node applications.
 
 1. Manage that the running container has a new user group (name app & id 1000) with `addgroup` shell cmd & a new user (name app & id 1000)  with `adduser` shell cmd. If it's too complicated, try this in a simple Alpine running container.
-2. Make the container use this user and the created home directory (you don't really want the container to run as ROOT)
-3. The most important step : you have to put your node app files inside your container & install node modules ... but not when building this generic image but when building the app image (look at `ONBUILD`)
+2. Make the container use this user (you don't really want the container to run as ROOT) and the created home directory as WORKDIR
+3. The most important step : you have to put your node app files inside your container & install node modules ... but not when building this generic image but when building the child image (look at `ONBUILD`)
 4. Expose the correct port
 5. Use a combination of ENTRYPOINT & CMD to make the container running only as node with server.js as the default parameter 
-6. You can now use this image as a base image for any node app
+6. You can now use this image as a base image for any node app (like the hello world)
 7. Stop a running node app container. Do you see `stopping application after SIGTERM` at the end ?
 
 You now have a generic secure base image. You could experiment by taking into account that only the "installation" of node app files and directly running the node app are necessary.
@@ -84,6 +84,17 @@ You can run `docker run --rm -d -p 9200:9200 -p 9300:9300 blacktop/elasticsearch
 
 And finally, you have a docker stack ! You can run your whole many microservices with one file and some commands (or not).
 The important parts of this steps are the compose file, the cmd line and the network part. You can look at the very good tutorials [here](https://docs.docker.com/network/#docker-ee-networking-features)
+
+
+Interesting articles around Docker:
+- https://docs.docker.com/storage/storagedriver/
+- https://learnk8s.io/blog/smaller-docker-images
+- https://donagh.io/docker-startup-order/
+- https://medium.com/@gchudnov/trapping-signals-in-docker-containers-7a57fdda7d86
+
+Harcore video:
+- https://www.youtube.com/watch?v=sK5i-N34im8&t=5s
+- https://www.youtube.com/watch?v=9oh_M11-foU
 
 
 
