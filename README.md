@@ -1,13 +1,13 @@
 ## Mandotory things before workshop
 
-1. Having a linux (ubuntu is advised) with docker last version installed (using Virtual Box running Ubuntu for example or Windows Subsystem Linux)
+1. Having a linux (ubuntu is advised) with docker last version installed (for Windows or MacOS, you can use Virtual Box running Ubuntu)
 2. Having done a first `docker pull ubuntu` to see if everything is working
 
 ## Step 1 - Run and create your first image using Alpine base image
 
 Important links:
-https://docs.docker.com/engine/reference/run/
-https://docs.docker.com/engine/reference/commandline/commit/
+- https://docs.docker.com/engine/reference/run/
+- https://docs.docker.com/engine/reference/commandline/commit/
 
 1. Do `docker pull alpine && docker images` and compare size with Ubuntu image
 2. Do `docker inspect alpine` and see the GraphDriver section. The name is the storage driver for Copy On Write capabilities your are using. Look at the file inside the UpperDir inside your system (surely needing root access)
@@ -23,12 +23,12 @@ You now understand the importance of small base image and have a glimpse on how 
 ## Step 2 - Build a real Docker image and run do some interesting stuff
 
 Important links:
-https://docs.docker.com/engine/reference/builder/
-https://docs.docker.com/engine/reference/commandline/build/
-https://docs.docker.com/engine/reference/run/
+- https://docs.docker.com/engine/reference/builder/
+- https://docs.docker.com/engine/reference/commandline/build/
+- https://docs.docker.com/engine/reference/run/
 
 
-1. Now build the same previous image with DSL by completing the Dockerfile present in node-image dir 
+1. Now build the same previous image with DSL by completing the Dockerfile present in node-base-image dir 
 2. Define a work directory like `/build` : is this dir already in your system ? how to create it ? more important why defining a work directory for your image ?
 3. Setup PATH to prioritize local npm bin ahead of system PATH (in shell, you could do `export PATH=node_modules/.bin:$PATH` .. but how to make it present in running container ?)
 4. Add a final command to make `npm install` run as soon as the container start and exit as soon as it's finished
@@ -50,16 +50,16 @@ Wow you now have a container that can build any node project, it can even run yo
 ## Step 3 - Build node app generic image - the generic level
 
 Important links:
-https://docs.docker.com/engine/reference/builder/
+- https://docs.docker.com/engine/reference/builder/
 
-The goal is to make hello-world run as a container with only one FROM in the Dockerfile. The idea is to have a generic image you could use to build many other node applications.
+The goal is to make hello-world node application (directory of the same name) run as a container with only one line FROM in the Dockerfile. The idea is to have a generic image you could use to build many other node applications.
 
 1. Manage that the running container has a new user group (name app & id 1000) with `addgroup` shell cmd & a new user (name app & id 1000)  with `adduser` shell cmd. If it's too complicated, try this in a simple Alpine running container.
-2. Make the container use this user and the created home directory (you don't really want the container to run as ROOT)
-3. The most important step : you have to put your node app files inside your container & install node modules.
+2. Make the container use this user (you don't really want the container to run as ROOT) and the created home directory as WORKDIR
+3. The most important step : you have to put your node app files inside your container & install node modules ... but not when building this generic image but when building the child image (look at `ONBUILD`)
 4. Expose the correct port
 5. Use a combination of ENTRYPOINT & CMD to make the container running only as node with server.js as the default parameter 
-6. You can now use this image as a base image for any node app
+6. You can now use this image as a base image for any node app (like the hello world)
 7. Stop a running node app container. Do you see `stopping application after SIGTERM` at the end ?
 
 You now have a generic secure base image. You could experiment by taking into account that only the "installation" of node app files and directly running the node app are necessary.
@@ -67,8 +67,8 @@ You now have a generic secure base image. You could experiment by taking into ac
 ## Step 4 - running a stack
 
 Important links:
-https://docs.docker.com/compose/compose-file/
-https://docs.docker.com/compose/reference/overview/
+- https://docs.docker.com/compose/compose-file/
+- https://docs.docker.com/compose/reference/overview/
 
 The goal is to make a stack containing an ElasticSearch backend and a very basic CRUD ExpressJS application running in a container thanks the generic image you have build before.
 
@@ -84,6 +84,17 @@ You can run `docker run --rm -d -p 9200:9200 -p 9300:9300 blacktop/elasticsearch
 
 And finally, you have a docker stack ! You can run your whole many microservices with one file and some commands (or not).
 The important parts of this steps are the compose file, the cmd line and the network part. You can look at the very good tutorials [here](https://docs.docker.com/network/#docker-ee-networking-features)
+
+
+Interesting articles around Docker:
+- https://docs.docker.com/storage/storagedriver/
+- https://learnk8s.io/blog/smaller-docker-images
+- https://donagh.io/docker-startup-order/
+- https://medium.com/@gchudnov/trapping-signals-in-docker-containers-7a57fdda7d86
+
+Harcore video:
+- https://www.youtube.com/watch?v=sK5i-N34im8&t=5s
+- https://www.youtube.com/watch?v=9oh_M11-foU
 
 
 
