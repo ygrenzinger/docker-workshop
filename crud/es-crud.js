@@ -1,4 +1,13 @@
 const elasticsearch = require('elasticsearch');
+const winston = require('winston');
+const logger = winston.createLogger({
+    level: 'info',
+    format: winston.format.json(),
+    transports: [
+        new winston.transports.Console(),
+        new winston.transports.File({ filename: 'app.log' })
+    ]
+  });
 
 // https://blog.raananweber.com/2015/11/24/simple-autocomplete-with-elasticsearch-and-node-js/
 // https://www.compose.com/articles/getting-started-with-elasticsearch-and-node/
@@ -14,7 +23,6 @@ const elasticClient = new elasticsearch.Client({
     host: ES_URL,
     log: 'info'
 });
-
 
 const indexName = "workshop-docker";
 
@@ -38,7 +46,7 @@ function indexExists() {
 }
 
 function initMapping() {  
-    console.log('init mapping');
+    logger.info('init mapping');
     return elasticClient.indices.putMapping({
         index: indexName,
         type: 'stuff',
@@ -51,16 +59,16 @@ function initMapping() {
 }
 
 indexExists().then(function (exists) {
-    console.log('is ' + indexName + ' exists ? ' + exists);
+    logger.info('is ' + indexName + ' exists ? ' + exists);
     if (!exists) {
         return initIndex();
     }
 }).then(function() {
     return initMapping();
-}, function(error) { console.log(error)});
+}, function(error) { logger.error(error)});
 
 function addStuff(body) {  
-    console.log('adding stuff : ' + body.data);
+    logger.info('adding stuff : ' + body.data);
     return elasticClient.index({
         index: indexName,
         type: 'stuff',
@@ -72,6 +80,7 @@ function addStuff(body) {
 exports.addStuff = addStuff;
 
 function getStuffs() {  
+    logger.info('getting stuff')
     return elasticClient.search({
         index: indexName
     })
