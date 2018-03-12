@@ -33,7 +33,7 @@ Important links:
 3. Setup PATH to prioritize local npm bin ahead of system PATH (in shell, you could do `export PATH=node_modules/.bin:$PATH` .. but how to make it present in running container ?)
 4. Add a final command to make `npm install` run as soon as the container start and exit as soon as it's finished
 5. Build this image and tag it with the `build` command
-6. test this image with : `docker run -v "$(pwd):/build" xxxx` (xxxx is the name you gave to the image) in the hello-world node app dir
+6. test this image with : `docker run -v "$(pwd):/build" xxxx` (xxxx is the name you gave to the image) in the `\hello-world` node app dir
 7. What is this -v arg ? Why do we need it ?
 8. Can you run the node app directly in your host ? try adding `node server.js` at the end of the `docker run` cmd
 9. Your terminal is now blocked so how to stop the container ? Can you look inside the running container (by running a sh inside it with `exec` or `attach` to it). Run a `ps` command and look at the process running inside your container. (hey PID = 1 how is it possible ? https://en.wikipedia.org/wiki/Process_identifier)
