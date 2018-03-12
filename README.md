@@ -1,4 +1,4 @@
-## Mandotory things before workshop
+## Mandatory things before workshop
 
 1. Having a linux (ubuntu is advised) with docker last version installed (for Windows or MacOS, you can use Virtual Box running Ubuntu)
 2. Having done a first `docker pull ubuntu` to see if everything is working
