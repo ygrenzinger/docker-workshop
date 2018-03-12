@@ -12,9 +12,9 @@ Important links:
 1. Do `docker pull alpine && docker images` and compare size with Ubuntu image
 2. Do `docker inspect alpine` and see the GraphDriver section. The name is the storage driver for Copy On Write capabilities your are using. Look at the file inside the UpperDir inside your system (surely needing root access)
 3. Run Alpine container with sh in interactive mode with `run` command
-4. inside the container install node (`apk add nodejs`) and exit
+4. inside the container add an user (`adduser`) and exit
 5. Use `ps` command to see the stopped but not removed container (what happen if you remove it ?)
-6. Commit this container as an image with nodejs (you should give it a name ...) with `commit` command
+6. Commit this container as an image with a funny name with `commit` command. Look at the size of the images.
 7. Run this new image in same interactive mode to see that node is always there
 8. Inspect the new image and find what is the diff from the base image
 
