@@ -28,7 +28,7 @@ Important links:
 - https://docs.docker.com/engine/reference/run/
 
 
-1. Now build the same previous image with DSL by completing the Dockerfile present in node-base-image dir 
+1. Now build the same previous image with DSL by completing the Dockerfile present in the `\node-base-image` dir 
 2. Define a work directory like `/build` : is this dir already in your system ? how to create it ? more important why defining a work directory for your image ?
 3. Setup PATH to prioritize local npm bin ahead of system PATH (in shell, you could do `export PATH=node_modules/.bin:$PATH` .. but how to make it present in running container ?)
 4. Add a final command to make `npm install` run as soon as the container start and exit as soon as it's finished
